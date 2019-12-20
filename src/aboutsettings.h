@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2013 Jolla Ltd. <pekka.vuorela@jollamobile.com>
+ * Copyright (C) 2013 - 2019 Jolla Ltd.
+ * Copyright (c) 2019 Open Mobile Platform LLC.
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -36,10 +37,9 @@
 #include <QVariant>
 
 #include <systemsettingsglobal.h>
-#include <partitionmanager.h>
 
-class QNetworkInfo;
-class QDeviceInfo;
+class AboutSettingsPrivate;
+
 class SYSTEMSETTINGS_EXPORT AboutSettings: public QObject
 {
     Q_OBJECT
@@ -50,6 +50,7 @@ class SYSTEMSETTINGS_EXPORT AboutSettings: public QObject
     Q_PROPERTY(QString localizedOperatingSystemName READ localizedOperatingSystemName CONSTANT)
     Q_PROPERTY(QString baseOperatingSystemName READ baseOperatingSystemName CONSTANT)
     Q_PROPERTY(QString operatingSystemName READ operatingSystemName CONSTANT)
+    Q_PROPERTY(QString localizedSoftwareVersion READ localizedSoftwareVersion CONSTANT)
     Q_PROPERTY(QString softwareVersion READ softwareVersion CONSTANT)
     Q_PROPERTY(QString softwareVersionId READ softwareVersionId CONSTANT)
     Q_PROPERTY(QString adaptationVersion READ adaptationVersion CONSTANT)
@@ -81,6 +82,7 @@ public:
     QString localizedOperatingSystemName() const;
     QString baseOperatingSystemName() const;
     QString operatingSystemName() const;
+    QString localizedSoftwareVersion() const;
     QString softwareVersion() const;
     QString softwareVersionId() const;
     QString adaptationVersion() const;
@@ -95,18 +97,10 @@ private:
     void partitionCountChanged();
     void reloadStorageLists();
 
-    QNetworkInfo *m_netinfo;
-    QDeviceInfo *m_devinfo;
+    Q_DECLARE_PRIVATE(AboutSettings)
+    Q_DISABLE_COPY(AboutSettings)
 
-    QVariantList m_internalStorage;
-    PartitionManager m_partitionManager;
-
-    mutable QMap<QString, QString> m_osRelease;
-    mutable QMap<QString, QString> m_osReleaseLocalization;
-    mutable QMap<QString, QString> m_hardwareRelease;
-
-    QString m_vendorName;
-    QString m_vendorVersion;
+    AboutSettingsPrivate *d_ptr;
 };
 
 #endif
