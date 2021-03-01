@@ -2,14 +2,14 @@ TEMPLATE = lib
 TARGET = systemsettings
 
 CONFIG += qt create_pc create_prl no_install_prl c++11
-QT += qml dbus systeminfo
+QT += qml dbus systeminfo xmlpatterns
 QT -= gui
 
 CONFIG += c++11 hide_symbols link_pkgconfig
-PKGCONFIG += profile mlite5 mce timed-qt5 blkid libcrypto nemomodels-qt5 libsailfishkeyprovider connman-qt5 glib-2.0
+PKGCONFIG += profile mlite5 mce timed-qt5 blkid libcrypto libsailfishkeyprovider connman-qt5 glib-2.0
 PKGCONFIG += ssu-sysinfo nemodbus packagekitqt5 libsystemd sailfishusermanager sailfishaccesscontrol
 
-system(qdbusxml2cpp -p mceiface.h:mceiface.cpp mce.xml)
+system($$[QT_INSTALL_BINS]/qdbusxml2cpp -p mceiface.h:mceiface.cpp mce.xml)
 
 SOURCES += \
     languagemodel.cpp \
@@ -39,7 +39,8 @@ SOURCES += \
     udisks2job.cpp \
     udisks2monitor.cpp \
     userinfo.cpp \
-    usermodel.cpp
+    usermodel.cpp \
+    permissionsmodel.cpp
 
 PUBLIC_HEADERS = \
     languagemodel.h \
@@ -64,7 +65,8 @@ PUBLIC_HEADERS = \
     locationsettings.h \
     timezoneinfo.h \
     userinfo.h \
-    usermodel.h
+    usermodel.h \
+    permissionsmodel.h
 
 HEADERS += \
     $$PUBLIC_HEADERS \
@@ -102,6 +104,6 @@ QMAKE_PKGCONFIG_DESCRIPTION = System settings application development files
 QMAKE_PKGCONFIG_LIBDIR = $$target.path
 QMAKE_PKGCONFIG_INCDIR = $$develheaders.path
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
-QMAKE_PKGCONFIG_REQUIRES = Qt5Core Qt5DBus profile nemomodels-qt5 libsailfishkeyprovider connman-qt5
+QMAKE_PKGCONFIG_REQUIRES = Qt5Core Qt5DBus profile libsailfishkeyprovider connman-qt5
 
 INSTALLS += target develheaders pkgconfig locationconfig
